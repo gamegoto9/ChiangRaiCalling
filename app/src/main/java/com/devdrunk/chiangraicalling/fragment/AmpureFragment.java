@@ -1,34 +1,33 @@
 package com.devdrunk.chiangraicalling.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ListView;
 
 import com.devdrunk.chiangraicalling.R;
-import com.devdrunk.chiangraicalling.activity.OnlineActivity;
+import com.devdrunk.chiangraicalling.adapter.AmpureListAdapter;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
 @SuppressWarnings("unused")
-public class MainFragment extends Fragment {
+public class AmpureFragment extends Fragment {
 
-    Button btnOnline;
-    Button btnOffline;
+    ListView listView;
+    AmpureListAdapter listAdapter;
 
-    public MainFragment() {
+    public AmpureFragment() {
         super();
     }
 
     @SuppressWarnings("unused")
-    public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
+    public static AmpureFragment newInstance() {
+        AmpureFragment fragment = new AmpureFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -46,7 +45,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_ampure, container, false);
         initInstances(rootView, savedInstanceState);
         return rootView;
     }
@@ -58,19 +57,9 @@ public class MainFragment extends Fragment {
     @SuppressWarnings("UnusedParameters")
     private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
-        btnOnline = (Button) rootView.findViewById(R.id.btnOnline);
-        btnOffline = (Button) rootView.findViewById(R.id.btnOffLine);
-
-        btnOnline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(),
-                        OnlineActivity.class);
-                startActivity(intent);
-
-            }
-        });
-
+        listView = (ListView) rootView.findViewById(R.id.listView);
+        listAdapter = new AmpureListAdapter();
+        listView.setAdapter(listAdapter);
     }
 
     @Override

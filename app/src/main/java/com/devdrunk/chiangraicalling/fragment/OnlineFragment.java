@@ -1,34 +1,43 @@
 package com.devdrunk.chiangraicalling.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ListView;
 
 import com.devdrunk.chiangraicalling.R;
-import com.devdrunk.chiangraicalling.activity.OnlineActivity;
+import com.devdrunk.chiangraicalling.adapter.AmpureListAdapter;
+import com.devdrunk.chiangraicalling.adapter.ViewPagerAdaper;
+import com.inthecheesefactory.thecheeselibrary.view.SlidingTabLayout;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
 @SuppressWarnings("unused")
-public class MainFragment extends Fragment {
+public class OnlineFragment extends Fragment {
 
-    Button btnOnline;
-    Button btnOffline;
 
-    public MainFragment() {
+    ViewPager viewPager;
+    //private SlidingTabLayout slidingTabLayout;
+    private TabLayout tabLayout;
+
+
+    public OnlineFragment() {
         super();
     }
 
     @SuppressWarnings("unused")
-    public static MainFragment newInstance() {
-        MainFragment fragment = new MainFragment();
+    public static OnlineFragment newInstance() {
+        OnlineFragment fragment = new OnlineFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -46,8 +55,10 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_online, container, false);
         initInstances(rootView, savedInstanceState);
+
+
         return rootView;
     }
 
@@ -58,20 +69,24 @@ public class MainFragment extends Fragment {
     @SuppressWarnings("UnusedParameters")
     private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
-        btnOnline = (Button) rootView.findViewById(R.id.btnOnline);
-        btnOffline = (Button) rootView.findViewById(R.id.btnOffLine);
+        viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
 
-        btnOnline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getContext(),
-                        OnlineActivity.class);
-                startActivity(intent);
+        tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
 
-            }
-        });
+
+        ViewPagerAdaper viewPagerAdaper = new ViewPagerAdaper(getChildFragmentManager());
+        viewPager.setAdapter(viewPagerAdaper);
+
+        tabLayout.setupWithViewPager(viewPager);
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
+            tabLayout.getTabAt(i).setIcon(R.drawable.ic_launcher);
+        }
+
+
+
 
     }
+
 
     @Override
     public void onStart() {
