@@ -3,7 +3,11 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+   <SearchView
+       android:id="@+id/searchData"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:queryHint="ค้นหา"></SearchView>
 
     <ListView
         android:id="@+id/listView"

@@ -6,20 +6,38 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.devdrunk.chiangraicalling.R;
 import com.devdrunk.chiangraicalling.adapter.AmpureListAdapter;
+import com.devdrunk.chiangraicalling.dao.AmpureItemCollectionDao;
+import com.devdrunk.chiangraicalling.dao.AmpureItemDao;
+import com.devdrunk.chiangraicalling.manager.AmpureListManager;
+import com.devdrunk.chiangraicalling.manager.http.HttpManager;
+import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
 @SuppressWarnings("unused")
-public class AmpureFragment extends Fragment {
+public class AmpureFragment extends Fragment implements SearchView.OnQueryTextListener {
 
     ListView listView;
     AmpureListAdapter listAdapter;
+    android.widget.SearchView searchView;
+    ArrayList<AmpureItemDao> countrylist ;
+    String[] proviceName;
 
     public AmpureFragment() {
         super();
@@ -58,8 +76,68 @@ public class AmpureFragment extends Fragment {
     private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
         listView = (ListView) rootView.findViewById(R.id.listView);
-        listAdapter = new AmpureListAdapter();
+        searchView = (android.widget.SearchView) rootView.findViewById(R.id.searchData);
+
+
+
+
+        listAdapter = new AmpureListAdapter(getContext(),countrylist);
         listView.setAdapter(listAdapter);
+
+        searchView.setOnQueryTextListener(this);
+
+        Call<AmpureItemCollectionDao> call = HttpManager.getInstance().getService().loadAmpureList();
+        call.enqueue(new Callback<AmpureItemCollectionDao>() {
+            @Override
+            public void onResponse(Call<AmpureItemCollectionDao> call,
+                                   Response<AmpureItemCollectionDao> response) {
+                //ติดต่อ server สำเร็จ
+                if (response.isSuccessful()) {
+                    AmpureItemCollectionDao dao = response.body();
+                    AmpureListManager.getInstance().setDao(dao);
+                    listAdapter.notifyDataSetChanged();
+                    Toast.makeText(Contextor.getInstance().getContext(),
+                            dao.getData().get(0).getProvinceId(),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }else{
+                    try {
+                        Toast.makeText(Contextor.getInstance().getContext(),
+                                response.errorBody().string(),
+                                Toast.LENGTH_LONG)
+                                .show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AmpureItemCollectionDao> call,
+                                  Throwable t) {
+                //ติดต่อ server ไม่สำเร็จ
+                Toast.makeText(Contextor.getInstance().getContext(),
+                        t.toString(),
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+        });
+
+
+        //adapter = new ArrayAdapter<String>(this,R.layout.list_item_ampure,);
+
+
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        listAdapter.getFilter().filter(newText);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
     }
 
     @Override
@@ -88,5 +166,7 @@ public class AmpureFragment extends Fragment {
     private void onRestoreInstanceState(Bundle savedInstanceState) {
         // Restore Instance State here
     }
+
+
 
 }

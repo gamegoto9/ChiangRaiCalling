@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.devdrunk.chiangraicalling.R;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
@@ -15,6 +17,8 @@ import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
  */
 public class AmpureListItem extends BaseCustomViewGroup {
 
+    ImageView iconImg;
+    TextView txtName;
     public AmpureListItem(Context context) {
         super(context);
         initInflate();
@@ -49,6 +53,8 @@ public class AmpureListItem extends BaseCustomViewGroup {
 
     private void initInstances() {
         // findViewById here
+        iconImg = (ImageView) findViewById(R.id.imvProfile);
+        txtName = (TextView) findViewById(R.id.txtName);
     }
 
     private void initWithAttrs(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -85,6 +91,13 @@ public class AmpureListItem extends BaseCustomViewGroup {
 
         Bundle bundle = ss.getBundle();
         // Restore State from bundle here
+    }
+    
+    public void setNameText(String text){
+        txtName.setText(text);
+    }
+    public void setImageURL(String text){
+        //// TODO: Load imagesURL 
     }
 
 }

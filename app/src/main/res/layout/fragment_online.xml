@@ -15,12 +15,8 @@
         android:layout_below="@+id/tool_bar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-    <SearchView
-        android:id="@+id/serchData"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-    </SearchView>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"

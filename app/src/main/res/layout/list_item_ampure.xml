@@ -38,6 +38,7 @@
                 android:layout_gravity="center">
 
                 <TextView
+                    android:id="@+id/txtName"
                     android:text="Likit Yodya"
                     android:textSize="18sp"
                     android:textColor="#000000"
