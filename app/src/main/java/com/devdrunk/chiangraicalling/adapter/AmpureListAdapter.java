@@ -3,12 +3,9 @@ package com.devdrunk.chiangraicalling.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TextView;
 
 import com.devdrunk.chiangraicalling.dao.AmpureItemCollectionDao;
 import com.devdrunk.chiangraicalling.dao.AmpureItemDao;
@@ -21,23 +18,23 @@ import java.util.ArrayList;
 /**
  * Created by CRRU0001 on 01/06/2559.
  */
-public class AmpureListAdapter extends BaseAdapter implements Filterable{
+public class AmpureListAdapter extends BaseAdapter implements Filterable {
 
     Context context;
-    ArrayList<AmpureItemDao> ampure;
-    ValueFilter  valueFilter;
-    ArrayList<AmpureItemDao> mStringFilterList;
+    AmpureListManager ampureItemDao;
+    AmpureListManager ampureListManager;
 
-    public AmpureListAdapter(Context context, ArrayList<AmpureItemDao> countrylist) {
+    public AmpureListAdapter(Context context, AmpureListManager ampureItemDao) {
         this.context = context;
-        this.ampure = countrylist;
-        mStringFilterList = countrylist;
+        this.ampureItemDao = ampureItemDao;
+        this.ampureListManager = ampureItemDao;
     }
+
     @Override
     public int getCount() {
-        if(AmpureListManager.getInstance().getDao() == null)
+        if (AmpureListManager.getInstance().getDao() == null)
             return 0;
-        if(AmpureListManager.getInstance().getDao().getData() == null)
+        if (AmpureListManager.getInstance().getDao().getData() == null)
             return 0;
         return AmpureListManager.getInstance().getDao().getData().size();
     }
@@ -55,11 +52,11 @@ public class AmpureListAdapter extends BaseAdapter implements Filterable{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-            AmpureListItem item;
-            if(convertView != null)
-                item = (AmpureListItem) convertView;
-            else
-                item = new AmpureListItem(parent.getContext());
+        AmpureListItem item;
+        if (convertView != null)
+            item = (AmpureListItem) convertView;
+        else
+            item = new AmpureListItem(parent.getContext());
 
         AmpureItemDao dao = (AmpureItemDao) getItem(position);
         item.setNameText(dao.getProvinceName());
@@ -71,43 +68,46 @@ public class AmpureListAdapter extends BaseAdapter implements Filterable{
     @Override
     public Filter getFilter() {
 
+        Filter filter = new Filter() {
 
-        if (valueFilter == null) {
-            valueFilter = new ValueFilter();
-        }
-        return valueFilter;
-    }
-    class ValueFilter  extends Filter{
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
 
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-            FilterResults results = new FilterResults();
-            if (constraint != null && constraint.length() > 0) {
-                ArrayList<AmpureItemDao> filterList = new ArrayList<AmpureItemDao>();
+                if (constraint != null && constraint.length() > 0) {
 
-                for (int i = 0; i < mStringFilterList.size(); i++) {
-                    if ( (mStringFilterList.get(i).getProvinceName().toUpperCase() )
-                            .contains(constraint.toString().toUpperCase())) {
 
-                        AmpureItemDao country = new AmpureItemDao(mStringFilterList.get(i)
-                                .getProvinceName());
+                    AmpureListManager filterList = new AmpureListManager();
 
-                        filterList.add(country);
+                    for (int i = 0; i < AmpureListManager.getInstance().getDao().getData().size(); i++) {
+                        if ((AmpureListManager.getInstance().getDao().getData().get(i).getProvinceName().toUpperCase())
+                                .contains(constraint.toString().toUpperCase())) {
+
+                            AmpureItemCollectionDao dao = new AmpureItemCollectionDao();
+
+
+                            dao.setData(ampureListManager.getInstance().getDao().getData());
+
+                            filterList.getInstance().setDao(dao);
+
+
+                        }
                     }
+                    results.count = filterList.getInstance().getDao().getData().size();
+                    results.values = filterList;
+                } else {
+                    results.count = AmpureListManager.getInstance().getDao().getData().size();
+                    results.values = AmpureListManager.getInstance().getDao().getData();
                 }
-                results.count = filterList.size();
-                results.values = filterList;
-            } else {
-                results.count = mStringFilterList.size();
-                results.values = mStringFilterList;
+                return results;
             }
-            return results;
-        }
 
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            ampure = (ArrayList<AmpureItemDao>) results.values;
-            notifyDataSetChanged();
-        }
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults results) {
+                ampureItemDao = (AmpureListManager) results.values;
+                notifyDataSetChanged();
+            }
+        };
+        return filter;
     }
 }

@@ -21,7 +21,7 @@ public class AmpureListManager {
     private Context mContext;
     private AmpureItemCollectionDao dao;
 
-    private AmpureListManager() {
+    public AmpureListManager() {
         mContext = Contextor.getInstance().getContext();
     }
 
@@ -32,4 +32,6 @@ public class AmpureListManager {
     public void setDao(AmpureItemCollectionDao dao) {
         this.dao = dao;
     }
+
+
 }

@@ -31,13 +31,13 @@ import retrofit2.Response;
  * Created by nuuneoi on 11/16/2014.
  */
 @SuppressWarnings("unused")
-public class AmpureFragment extends Fragment implements SearchView.OnQueryTextListener {
+public class AmpureFragment extends Fragment implements SearchView.OnQueryTextListener{
 
     ListView listView;
     AmpureListAdapter listAdapter;
     android.widget.SearchView searchView;
-    ArrayList<AmpureItemDao> countrylist ;
-    String[] proviceName;
+    AmpureListManager ampureListManager;
+
 
     public AmpureFragment() {
         super();
@@ -76,15 +76,19 @@ public class AmpureFragment extends Fragment implements SearchView.OnQueryTextLi
     private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
         listView = (ListView) rootView.findViewById(R.id.listView);
+
         searchView = (android.widget.SearchView) rootView.findViewById(R.id.searchData);
+        searchView.setOnQueryTextListener(this);
+        searchView.setSubmitButtonEnabled(false);
+        searchView.setIconifiedByDefault(false);
 
-
-
-
-        listAdapter = new AmpureListAdapter(getContext(),countrylist);
+        ampureListManager = new AmpureListManager();
+        listAdapter = new AmpureListAdapter(Contextor.getInstance().getContext(),ampureListManager);
         listView.setAdapter(listAdapter);
 
-        searchView.setOnQueryTextListener(this);
+        listView.setTextFilterEnabled(true);
+
+
 
         Call<AmpureItemCollectionDao> call = HttpManager.getInstance().getService().loadAmpureList();
         call.enqueue(new Callback<AmpureItemCollectionDao>() {
@@ -124,20 +128,10 @@ public class AmpureFragment extends Fragment implements SearchView.OnQueryTextLi
         });
 
 
+
         //adapter = new ArrayAdapter<String>(this,R.layout.list_item_ampure,);
 
 
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        listAdapter.getFilter().filter(newText);
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        return false;
     }
 
     @Override
@@ -168,5 +162,18 @@ public class AmpureFragment extends Fragment implements SearchView.OnQueryTextLi
     }
 
 
+    @Override
+    public boolean onQueryTextSubmit(String s) {
+        return false;
+    }
 
+    @Override
+    public boolean onQueryTextChange(String s) {
+        if(s == null || s.length() == 0){
+            listView.clearTextFilter();
+        }else {
+            listView.setFilterText(s);
+        }
+        return true;
+    }
 }
