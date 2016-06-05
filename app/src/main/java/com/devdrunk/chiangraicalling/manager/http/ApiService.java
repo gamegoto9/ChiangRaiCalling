@@ -10,7 +10,9 @@ import retrofit2.http.POST;
 /**
  * Created by CRRU0001 on 02/06/2559.
  */
-public interface ApiService {
+public interface ApiService{
     @POST("gen_json.php")
     Call<AmpureItemCollectionDao>loadAmpureList();
 }
+
+

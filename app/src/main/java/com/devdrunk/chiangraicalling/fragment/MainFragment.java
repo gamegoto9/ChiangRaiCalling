@@ -1,6 +1,7 @@
 package com.devdrunk.chiangraicalling.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -64,10 +65,16 @@ public class MainFragment extends Fragment {
         btnOnline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getContext(),
                         OnlineActivity.class);
                 startActivity(intent);
 
+                /*
+                Intent intent = new Intent(Intent.ACTION_CALL);
+                intent.setData(Uri.parse("tel:123456"));
+                startActivity(intent);
+                */
             }
         });
 

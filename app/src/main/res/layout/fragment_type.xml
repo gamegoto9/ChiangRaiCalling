@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ProgressBar
-        style="@android:style/Widget.Holo.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressbar"
-        android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/secondary"
-
-        />
 
     <SearchView
         android:id="@+id/searchData"
@@ -20,10 +12,14 @@
         android:layout_height="wrap_content"
         android:queryHint="ค้นหา"></SearchView>
 
+
+
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
     </ListView>
+
+
 </LinearLayout>

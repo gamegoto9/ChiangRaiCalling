@@ -2,7 +2,6 @@ package com.devdrunk.chiangraicalling.manager.http;
 
 import android.content.Context;
 
-import com.google.gson.Gson;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 import retrofit2.Retrofit;
@@ -11,19 +10,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by nuuneoi on 11/16/2014.
  */
-public class HttpManager {
+public class HttpManagerPlance {
 
-    private static HttpManager instance;
+    private static HttpManagerPlance instance;
 
-    public static HttpManager getInstance() {
+    public static HttpManagerPlance getInstance() {
         if (instance == null)
-            instance = new HttpManager();
+            instance = new HttpManagerPlance();
         return instance;
     }
 
     private Context mContext;
-    private ApiService service;
-    private HttpManager() {
+
+    private ApiServicePlance servicePlance;
+    private HttpManagerPlance() {
         mContext = Contextor.getInstance().getContext();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -31,11 +31,13 @@ public class HttpManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        service = retrofit.create(ApiService.class);
+
+        servicePlance = retrofit.create(ApiServicePlance.class);
 
     }
-    public ApiService getService(){
-        return service;
-    }
 
+
+    public ApiServicePlance getServicePlance() {
+        return servicePlance;
+    }
 }

@@ -1,24 +1,20 @@
 package com.devdrunk.chiangraicalling.adapter;
 
-import android.content.Context;
+import android.animation.TypeEvaluator;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devdrunk.chiangraicalling.dao.AmpureItemCollectionDao;
 import com.devdrunk.chiangraicalling.dao.AmpureItemDao;
-import com.devdrunk.chiangraicalling.manager.AmpureListManager;
+import com.devdrunk.chiangraicalling.dao.TypeItemCollectionDao;
+import com.devdrunk.chiangraicalling.dao.TypeItemDao;
 import com.devdrunk.chiangraicalling.view.AmpureListItem;
-import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
+import com.devdrunk.chiangraicalling.view.TypeListItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +22,10 @@ import java.util.List;
 /**
  * Created by CRRU0001 on 01/06/2559.
  */
-public class AmpureListAdapter extends BaseAdapter implements Filterable ,Parcelable{
+public class TypeListAdapter extends BaseAdapter implements Filterable ,Parcelable{
 
-    List<AmpureItemDao> orgData;
-    List<AmpureItemDao> filterData;
+    List<TypeItemDao> orgData;
+    List<TypeItemDao> filterData;
 
     private int parcelData;
     AmpureItemCollectionDao dao;
@@ -39,7 +35,7 @@ public class AmpureListAdapter extends BaseAdapter implements Filterable ,Parcel
    //     this.dao = dao;
    // }
 
-    public AmpureListAdapter(List<AmpureItemDao> itemDao) {
+    public TypeListAdapter(List<TypeItemDao> itemDao ) {
         orgData = itemDao;
         filterData = itemDao;
     }
@@ -52,17 +48,17 @@ public class AmpureListAdapter extends BaseAdapter implements Filterable ,Parcel
         out.writeInt(parcelData);
     }
 
-    public static final Parcelable.Creator<AmpureListAdapter> CREATOR = new Parcelable.Creator<AmpureListAdapter>() {
-        public AmpureListAdapter createFromParcel(Parcel in) {
-            return new AmpureListAdapter(in);
+    public static final Creator<TypeListAdapter> CREATOR = new Creator<TypeListAdapter>() {
+        public TypeListAdapter createFromParcel(Parcel in) {
+            return new TypeListAdapter(in);
         }
 
-        public AmpureListAdapter[] newArray(int size) {
-            return new AmpureListAdapter[size];
+        public TypeListAdapter[] newArray(int size) {
+            return new TypeListAdapter[size];
         }
     };
 
-    private AmpureListAdapter(Parcel in) {
+    private TypeListAdapter(Parcel in) {
         parcelData = in.readInt();
     }
     //End Parcel
@@ -87,20 +83,22 @@ public class AmpureListAdapter extends BaseAdapter implements Filterable ,Parcel
 
     @Override
     public long getItemId(int i) {
-        return Long.parseLong(filterData.get(i).getProvinceId());
+        return filterData.get(i).gettId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        AmpureListItem item;
+        TypeListItem item;
         if (convertView != null)
-            item = (AmpureListItem) convertView;
+            item = (TypeListItem) convertView;
         else
-            item = new AmpureListItem(parent.getContext());
+            item = new TypeListItem(parent.getContext());
 
-        AmpureItemDao dao = (AmpureItemDao) getItem(position);
-        item.setNameText(dao.getProvinceName());
+        TypeItemDao dao = (TypeItemDao) getItem(position);
+        item.setNameText(dao.gettName());
+        item.setImgProfile(dao.gettImg());
+        item.setId(dao.gettId());
 
         return item;
 
@@ -113,19 +111,19 @@ public class AmpureListAdapter extends BaseAdapter implements Filterable ,Parcel
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
 
-                filterData = (List<AmpureItemDao>) results.values;
+                filterData = (List<TypeItemDao>) results.values;
                 notifyDataSetChanged();
             }
 
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
 
-                List<AmpureItemDao> filteredResults = new ArrayList<>();
+                List<TypeItemDao> filteredResults = new ArrayList<>();
 
                 // Filter any field with constraint
-                for (AmpureItemDao searchingContact : orgData) {
+                for (TypeItemDao searchingContact : orgData) {
 
-                    if (searchingContact.getProvinceName().contains(constraint)) {
+                    if (searchingContact.gettName().contains(constraint)) {
                         filteredResults.add(searchingContact);
                     }
 

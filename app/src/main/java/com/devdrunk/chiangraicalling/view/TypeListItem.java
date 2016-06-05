@@ -5,38 +5,34 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devdrunk.chiangraicalling.R;
-import com.devdrunk.chiangraicalling.manager.PlanceListManager;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
-public class PlanceListItem extends BaseCustomViewGroup {
+public class TypeListItem extends BaseCustomViewGroup {
 
-    TextView tvName,tvTel;
-    ImageView imgProfile;
-
-    public PlanceListItem(Context context) {
+    TextView txtName,txtId;
+    ImageView imvProfile;
+    public TypeListItem(Context context) {
         super(context);
         initInflate();
         initInstances();
     }
 
-    public PlanceListItem(Context context, AttributeSet attrs) {
+    public TypeListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
         initInflate();
         initInstances();
         initWithAttrs(attrs, 0, 0);
     }
 
-    public PlanceListItem(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TypeListItem(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initInflate();
         initInstances();
@@ -44,7 +40,7 @@ public class PlanceListItem extends BaseCustomViewGroup {
     }
 
     @TargetApi(21)
-    public PlanceListItem(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TypeListItem(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initInflate();
         initInstances();
@@ -52,17 +48,14 @@ public class PlanceListItem extends BaseCustomViewGroup {
     }
 
     private void initInflate() {
-        inflate(getContext(), R.layout.list_item_plance, this);
+        inflate(getContext(), R.layout.list_item_type, this);
     }
 
     private void initInstances() {
         // findViewById here
-        tvName = (TextView) findViewById(R.id.tvName);
-        tvTel = (TextView) findViewById(R.id.tvTel);
-        imgProfile = (ImageView) findViewById(R.id.imvProfile);
-
-
-
+        txtName = (TextView) findViewById(R.id.txtName);
+        imvProfile = (ImageView) findViewById(R.id.imvProfile);
+        txtId = (TextView) findViewById(R.id.txtId);
 
     }
 
@@ -103,15 +96,15 @@ public class PlanceListItem extends BaseCustomViewGroup {
     }
 
     public void setNameText (String text){
-        tvName.setText(text);
+        txtName.setText(text);
     }
-    public void setTelText (String text){
-        tvTel.setText(text);
+    public void setId (int id){
+
+        txtId.setText(String.valueOf(id));
     }
+
     public void setImgProfile (String text){
         //Todo set images
     }
-
-
 
 }

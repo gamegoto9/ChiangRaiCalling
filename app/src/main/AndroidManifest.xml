@@ -3,6 +3,7 @@
     package="com.devdrunk.chiangraicalling">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
 
     <application
         android:name=".MainApplication"
@@ -19,6 +20,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.OnlineActivity"></activity>
+        <activity android:name=".activity.TypeActivity"></activity>
     </application>
 
 </manifest>

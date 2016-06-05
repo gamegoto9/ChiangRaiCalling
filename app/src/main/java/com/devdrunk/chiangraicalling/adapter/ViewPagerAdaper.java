@@ -1,16 +1,12 @@
 package com.devdrunk.chiangraicalling.adapter;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.widget.BaseAdapter;
 
 import com.devdrunk.chiangraicalling.R;
 import com.devdrunk.chiangraicalling.fragment.AmpureFragment;
 import com.devdrunk.chiangraicalling.fragment.PlanceFragment;
-import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 /**
  * Created by CRRU0001 on 01/06/2559.

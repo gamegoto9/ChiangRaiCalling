@@ -1,21 +1,17 @@
 package com.devdrunk.chiangraicalling.activity;
 
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.devdrunk.chiangraicalling.R;
-import com.devdrunk.chiangraicalling.adapter.AmpureListAdapter;
 import com.devdrunk.chiangraicalling.dao.AmpureItemDao;
-import com.devdrunk.chiangraicalling.dao.PlanceItemDao;
-import com.devdrunk.chiangraicalling.fragment.AmpureFragment;
 import com.devdrunk.chiangraicalling.fragment.OnlineFragment;
-import com.devdrunk.chiangraicalling.fragment.PlanceFragment;
+import com.devdrunk.chiangraicalling.fragment.TypeFragment;
 
-public class OnlineActivity extends AppCompatActivity
-        implements AmpureFragment.FragmentListener{
+public class TypeActivity extends AppCompatActivity {
 
     Toolbar toolbar;
 
@@ -23,16 +19,18 @@ public class OnlineActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_online);
+        setContentView(R.layout.activity_type);
 
         initInstances();
 
-        //PhotoItemDao dao = getIntent().getParcelableExtra("dao");
+        AmpureItemDao dao = getIntent().getParcelableExtra("dao");
+
+
 
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.contentContainer, OnlineFragment.newInstance())             //แปะ fragment
+                    .add(R.id.contentContainer, TypeFragment.newInstance(dao))             //แปะ fragment
                     .commit();
         }
     }
@@ -47,19 +45,20 @@ public class OnlineActivity extends AppCompatActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.logo_app);
         actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+       // actionBar.setDisplayShowHomeEnabled(true);
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
-
     @Override
-    public void onAmpureItemClicked(AmpureItemDao dao) {
-        Intent intent = new Intent(OnlineActivity.this,
-                TypeActivity.class);
-        intent.putExtra("dao",dao);
-        startActivity(intent);
+    public boolean onOptionsItemSelected(MenuItem item) {
+       // if(item.getItemId() == ){
+       //     finish();
+       //     return true;
+       // }
+
+        return super.onOptionsItemSelected(item);
     }
 }
