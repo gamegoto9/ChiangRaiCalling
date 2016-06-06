@@ -6,53 +6,58 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.devdrunk.chiangraicalling.R;
-import com.devdrunk.chiangraicalling.adapter.TypeListAdapter;
-import com.devdrunk.chiangraicalling.dao.AmpureItemDao;
+import com.devdrunk.chiangraicalling.activity.MainActivity;
+import com.devdrunk.chiangraicalling.adapter.TypePlanceListAdapter;
 import com.devdrunk.chiangraicalling.dao.TypeItemCollectionDao;
 import com.devdrunk.chiangraicalling.dao.TypeItemDao;
-import com.devdrunk.chiangraicalling.manager.TypeListManager;
-import com.devdrunk.chiangraicalling.manager.http.HttpManagerType;
+import com.devdrunk.chiangraicalling.dao.TypePlanceItemCollectionDao;
+import com.devdrunk.chiangraicalling.dao.TypePlanceItemDao;
+import com.devdrunk.chiangraicalling.manager.TypePlanceListManager;
+import com.devdrunk.chiangraicalling.manager.http.ApiServiceTypePlance;
+import com.devdrunk.chiangraicalling.manager.http.HttpManager;
+import com.devdrunk.chiangraicalling.manager.http.HttpManagerTypePlance;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
  * Created by nuuneoi on 11/16/2014.
  */
 @SuppressWarnings("unused")
-public class TypeFragment extends Fragment {
+public class TypePlanceFragment extends Fragment {
 
-    public interface FragmentListener{
-        void onTypeItemClicked(TypeItemDao dao,String amphurId);
-    }
-
-    AmpureItemDao dao;
-    ListView listView;
-    String locationId;
-    SearchView searchView;
-    TypeListAdapter listAdapter;
-
-    public TypeFragment() {
+    public TypePlanceFragment() {
         super();
     }
 
+    TypeItemDao  dao;
+    public String amphurId;
+    ListView listView;
+    SearchView searchView;
+    TypePlanceListAdapter listAdapter;
+
     @SuppressWarnings("unused")
-    public static TypeFragment newInstance(AmpureItemDao dao) {
-        TypeFragment fragment = new TypeFragment();
+    public static TypePlanceFragment newInstance(TypeItemDao dao,String amphurId) {
+        TypePlanceFragment fragment = new TypePlanceFragment();
         Bundle args = new Bundle();
         args.putParcelable("dao",dao);
+        args.putString("amphurId",amphurId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -63,6 +68,8 @@ public class TypeFragment extends Fragment {
         init(savedInstanceState);
 
         dao = getArguments().getParcelable("dao");
+        amphurId = getArguments().getString("amphurId");
+
 
         if (savedInstanceState != null)
             onRestoreInstanceState(savedInstanceState);
@@ -71,7 +78,7 @@ public class TypeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_type, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_type_plan, container, false);
         initInstances(rootView, savedInstanceState);
         return rootView;
     }
@@ -86,17 +93,14 @@ public class TypeFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.listView);
         searchView = (SearchView) rootView.findViewById(R.id.searchData);
 
-        locationId = dao.getProvinceId();
+        //int lId = dao.gettId();
+        //Toast.makeText(getContext(),""+lId+"-------- "+amphurId,Toast.LENGTH_LONG).show();
 
-        Toast.makeText(getContext(),locationId,Toast.LENGTH_SHORT).show();
+
+        searchView.setOnQueryTextListener(searchItem);
+
 
         CallServer();
-
-        searchView.setOnQueryTextListener(listener);
-
-
-        listView.setOnItemClickListener(OnclickItemListview);
-
     }
 
     @Override
@@ -128,18 +132,22 @@ public class TypeFragment extends Fragment {
         // Restore Instance State here
     }
 
-    public void CallServer(){
-        Call<TypeItemCollectionDao> call = HttpManagerType.getInstance().getService().loadTypeListData();
-        call.enqueue(new Callback<TypeItemCollectionDao>() {
+
+    private void CallServer() {
+        Call<TypePlanceItemCollectionDao> call = HttpManagerTypePlance
+                .getInstance()
+                .getService()
+                .selectTypePlance(Integer.parseInt(amphurId),dao.gettId());
+        call.enqueue(new Callback<TypePlanceItemCollectionDao>() {
             @Override
-            public void onResponse(Call<TypeItemCollectionDao> call, Response<TypeItemCollectionDao> response) {
+            public void onResponse(Call<TypePlanceItemCollectionDao> call, Response<TypePlanceItemCollectionDao> response) {
                 //ติดต่อ server สำเร็จ
                 if (response.isSuccessful()) {
-                    TypeItemCollectionDao dao = response.body();
-                    TypeListManager.getInstance().setDao(dao);
+                    TypePlanceItemCollectionDao dao = response.body();
+                    TypePlanceListManager.getInstance().setDao(dao);
 
-                    List<TypeItemDao> items = TypeListManager.getInstance().getDao().getData();
-                    listAdapter = new TypeListAdapter(items);
+                    List<TypePlanceItemDao> items = TypePlanceListManager.getInstance().getDao().getData();
+                    listAdapter = new TypePlanceListAdapter(items);
 
                     //listAdapter.setDao(AmpureListManager.getInstance().getDao());
 
@@ -149,7 +157,7 @@ public class TypeFragment extends Fragment {
 
                     //listAdapter.notifyDataSetChanged();
                     Toast.makeText(Contextor.getInstance().getContext(),
-                            dao.getData().get(0).gettName(),
+                            dao.getData().get(0).getlName(),
                             Toast.LENGTH_LONG)
                             .show();
                 } else {
@@ -165,44 +173,29 @@ public class TypeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<TypeItemCollectionDao> call,
-                                  Throwable t) {
+            public void onFailure(Call<TypePlanceItemCollectionDao> call, Throwable t) {
                 //ติดต่อ server ไม่สำเร็จ
                 Toast.makeText(Contextor.getInstance().getContext(),
                         t.toString(),
                         Toast.LENGTH_LONG)
                         .show();
+
             }
         });
     }
 
-    final SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+    final SearchView.OnQueryTextListener searchItem = new SearchView.OnQueryTextListener() {
         @Override
-        public boolean onQueryTextSubmit(String query) {
+        public boolean onQueryTextSubmit(String s) {
             return false;
         }
 
         @Override
-        public boolean onQueryTextChange(String newText) {
+        public boolean onQueryTextChange(String s) {
 
-            String criteria = newText.toString();
+            String criteria = s.toString();
             listAdapter.getFilter().filter(criteria);
-
             return false;
-        }
-    };
-
-    final AdapterView.OnItemClickListener OnclickItemListview = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            if(i < TypeListManager.getInstance().getCount()) {
-                TypeItemDao dao = (TypeItemDao) listAdapter.getItem(i);
-                FragmentListener listener = (FragmentListener) getActivity();
-                listener.onTypeItemClicked(dao,locationId);
-                Toast.makeText(getContext(),dao.gettId()+" : To : "+locationId,Toast.LENGTH_SHORT).show();
-            }
-
         }
     };
 

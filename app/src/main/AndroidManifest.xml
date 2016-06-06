@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.devdrunk.chiangraicalling">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".MainApplication"
@@ -19,8 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.OnlineActivity"></activity>
-        <activity android:name=".activity.TypeActivity"></activity>
+        <activity android:name=".activity.OnlineActivity" />
+        <activity android:name=".activity.TypeActivity" />
+        <meta-data
+            android:name="com.devdrunk.chiangraicalling.configuration.GlideConfiguration"
+            android:value="GlideModule" />
+
+        <activity android:name=".activity.TypePlanActivity"></activity>
     </application>
 
 </manifest>

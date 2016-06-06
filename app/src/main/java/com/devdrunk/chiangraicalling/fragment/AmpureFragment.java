@@ -104,7 +104,7 @@ public class AmpureFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(position < AmpureListManager.getInstance().getCount()) {
-                    AmpureItemDao dao = AmpureListManager.getInstance().getDao().getData().get(position);
+                    AmpureItemDao dao = (AmpureItemDao) listAdapter.getItem(position);
                     FragmentListener listener = (FragmentListener) getActivity();
                     listener.onAmpureItemClicked(dao);
                 }
@@ -130,7 +130,7 @@ public class AmpureFragment extends Fragment {
         });
 
 
-        //adapter = new ArrayAdapter<String>(this,R.layout.list_item_ampure,);
+
 
 
     }

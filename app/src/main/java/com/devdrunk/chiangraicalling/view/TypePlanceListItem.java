@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.devdrunk.chiangraicalling.R;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
@@ -16,24 +15,25 @@ import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
 /**
  * Created by nuuneoi on 11/16/2014.
  */
-public class TypeListItem extends BaseCustomViewGroup {
+public class TypePlanceListItem extends BaseCustomViewGroup {
 
-    TextView txtName,txtId;
-    ImageView imvProfile;
-    public TypeListItem(Context context) {
+    TextView tvName,tvTel;
+    ImageView imgProfile;
+
+    public TypePlanceListItem(Context context) {
         super(context);
         initInflate();
         initInstances();
     }
 
-    public TypeListItem(Context context, AttributeSet attrs) {
+    public TypePlanceListItem(Context context, AttributeSet attrs) {
         super(context, attrs);
         initInflate();
         initInstances();
         initWithAttrs(attrs, 0, 0);
     }
 
-    public TypeListItem(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TypePlanceListItem(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initInflate();
         initInstances();
@@ -41,7 +41,7 @@ public class TypeListItem extends BaseCustomViewGroup {
     }
 
     @TargetApi(21)
-    public TypeListItem(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TypePlanceListItem(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         initInflate();
         initInstances();
@@ -49,14 +49,17 @@ public class TypeListItem extends BaseCustomViewGroup {
     }
 
     private void initInflate() {
-        inflate(getContext(), R.layout.list_item_type, this);
+        inflate(getContext(), R.layout.list_item_plance, this);
     }
 
     private void initInstances() {
         // findViewById here
-        txtName = (TextView) findViewById(R.id.txtName);
-        imvProfile = (ImageView) findViewById(R.id.imvProfile);
-        txtId = (TextView) findViewById(R.id.txtId);
+        tvName = (TextView) findViewById(R.id.tvName);
+        tvTel = (TextView) findViewById(R.id.tvTel);
+        imgProfile = (ImageView) findViewById(R.id.imvProfile);
+
+
+
 
     }
 
@@ -97,18 +100,15 @@ public class TypeListItem extends BaseCustomViewGroup {
     }
 
     public void setNameText (String text){
-        txtName.setText(text);
+        tvName.setText(text);
     }
-    public void setId (int id){
-
-        txtId.setText(String.valueOf(id));
+    public void setTelText (String text){
+        tvTel.setText(text);
+    }
+    public void setImgProfile (String text){
+        //Todo set images
     }
 
-    public void setImgProfile (String url){
 
-        Glide.with(getContext())
-                .load("http://www.chiangraicalling.com/img_call/"+url)
-                .into(imvProfile);
-    }
 
 }

@@ -100,27 +100,17 @@ public class PlanceFragment extends Fragment {
                 ImageView imgCall = (ImageView) vg.findViewById(R.id.imvCall);
                 ImageView imgMap = (ImageView) vg.findViewById(R.id.imvProfile);
 
-                /*
-                imgCall.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(Intent.ACTION_CALL);
-                        intent.setData(Uri.parse("tel:"+PlanceListManager.getInstance()
-                        .getDao().getData().get(position).getLocationTel()));
-                        startActivity(intent);
-                    }
-                });
-                */
+
                 imgMap.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if(position < PlanceListManager.getInstance().getCount()) {
-                            PlanceItemDao dao = PlanceListManager.getInstance().getDao().getData().get(position);
+                            PlanceItemDao dao = (PlanceItemDao) listAdapter.getItem(position);
                             String leg_log = dao.getLocationCodeMap();
                             String planceName = dao.getLocationName();
                             String planceAddress = dao.getLocationAddress();
 
-                            //Toast.makeText(getContext(),planceName,Toast.LENGTH_SHORT).show();
+
 
 /*
                             Uri gmmIntentUri = Uri.parse("geo:"+leg_log+"?z=18");
@@ -142,7 +132,7 @@ public class PlanceFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         if(position < PlanceListManager.getInstance().getCount()) {
-                            PlanceItemDao dao = PlanceListManager.getInstance().getDao().getData().get(position);
+                            PlanceItemDao dao = (PlanceItemDao) listAdapter.getItem(position);
                             Toast.makeText(getContext(),dao.getLocationTel(),Toast.LENGTH_SHORT).show();
                         }
                     }
