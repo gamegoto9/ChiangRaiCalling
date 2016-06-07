@@ -3,11 +3,13 @@ package com.devdrunk.chiangraicalling.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ public class TypeFragment extends Fragment {
     public interface FragmentListener{
         void onTypeItemClicked(TypeItemDao dao,String amphurId);
     }
+
 
     AmpureItemDao dao;
     ListView listView;
@@ -86,6 +89,7 @@ public class TypeFragment extends Fragment {
         listView = (ListView) rootView.findViewById(R.id.listView);
         searchView = (SearchView) rootView.findViewById(R.id.searchData);
 
+
         locationId = dao.getProvinceId();
 
         Toast.makeText(getContext(),locationId,Toast.LENGTH_SHORT).show();
@@ -129,37 +133,45 @@ public class TypeFragment extends Fragment {
     }
 
     public void CallServer(){
-        Call<TypeItemCollectionDao> call = HttpManagerType.getInstance().getService().loadTypeListData();
+        Call<TypeItemCollectionDao> call = HttpManagerType.getInstance()
+                .getService()
+                .loadTypeListData(Integer.parseInt(locationId));
         call.enqueue(new Callback<TypeItemCollectionDao>() {
             @Override
             public void onResponse(Call<TypeItemCollectionDao> call, Response<TypeItemCollectionDao> response) {
                 //ติดต่อ server สำเร็จ
-                if (response.isSuccessful()) {
-                    TypeItemCollectionDao dao = response.body();
-                    TypeListManager.getInstance().setDao(dao);
-
-                    List<TypeItemDao> items = TypeListManager.getInstance().getDao().getData();
-                    listAdapter = new TypeListAdapter(items);
-
-                    //listAdapter.setDao(AmpureListManager.getInstance().getDao());
-
-                    listView.setAdapter(listAdapter);
+                if(response.body().getData() == null){
+                    //Log.e("null = == =  = = ","Null");
+                    Toast.makeText(Contextor.getInstance().getContext(),"* ไม่มีข้อมูลในระบบ *",
+                            Toast.LENGTH_SHORT).show();
 
 
+                }else {
+                    if (response.isSuccessful()) {
+                        TypeItemCollectionDao dao = response.body();
+                        TypeListManager.getInstance().setDao(dao);
 
-                    //listAdapter.notifyDataSetChanged();
-                    Toast.makeText(Contextor.getInstance().getContext(),
-                            dao.getData().get(0).gettName(),
-                            Toast.LENGTH_LONG)
-                            .show();
-                } else {
-                    try {
+                        List<TypeItemDao> items = TypeListManager.getInstance().getDao().getData();
+                        listAdapter = new TypeListAdapter(items);
+
+                        //listAdapter.setDao(AmpureListManager.getInstance().getDao())
+                        listView.setAdapter(listAdapter);
+
+
+                        //listAdapter.notifyDataSetChanged();
                         Toast.makeText(Contextor.getInstance().getContext(),
-                                response.errorBody().string(),
+                                dao.getData().get(0).gettName(),
                                 Toast.LENGTH_LONG)
                                 .show();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } else {
+                        try {
+                            Toast.makeText(Contextor.getInstance().getContext(),
+                                    response.errorBody().string(),
+                                    Toast.LENGTH_LONG)
+                                    .show();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
             }

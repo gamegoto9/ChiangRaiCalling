@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.devdrunk.chiangraicalling.R;
+import com.devdrunk.chiangraicalling.activity.OfflineActivity;
 import com.devdrunk.chiangraicalling.activity.OnlineActivity;
 
 
@@ -75,6 +76,15 @@ public class MainFragment extends Fragment {
                 intent.setData(Uri.parse("tel:123456"));
                 startActivity(intent);
                 */
+            }
+        });
+
+        btnOffline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(),
+                        OfflineActivity.class);
+                startActivity(intent);
             }
         });
 

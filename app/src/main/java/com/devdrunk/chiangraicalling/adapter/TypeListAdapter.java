@@ -74,6 +74,7 @@ public class TypeListAdapter extends BaseAdapter implements Filterable ,Parcelab
         return AmpureListManager.getInstance().getDao().getData().size();
         */
         return filterData.size();
+        //return 0;
     }
 
     @Override

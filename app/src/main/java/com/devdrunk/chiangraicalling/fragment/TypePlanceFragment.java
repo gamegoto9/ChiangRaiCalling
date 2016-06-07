@@ -1,11 +1,15 @@
 package com.devdrunk.chiangraicalling.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
@@ -101,6 +105,9 @@ public class TypePlanceFragment extends Fragment {
 
 
         CallServer();
+
+
+        listView.setOnItemClickListener(Onitemclicklistener);
     }
 
     @Override
@@ -196,6 +203,48 @@ public class TypePlanceFragment extends Fragment {
             String criteria = s.toString();
             listAdapter.getFilter().filter(criteria);
             return false;
+        }
+    };
+
+    final AdapterView.OnItemClickListener Onitemclicklistener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
+
+            ViewGroup vg = (ViewGroup) view;
+            ImageView imgCall = (ImageView) vg.findViewById(R.id.imvCall);
+            ImageView imgMap = (ImageView) vg.findViewById(R.id.imvProfile);
+
+
+            imgMap.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(i < TypePlanceListManager.getInstance().getCount()) {
+                        TypePlanceItemDao dao = (TypePlanceItemDao) listAdapter.getItem(i);
+                        String leg_log = dao.getlCodeMap();
+                        String planceName = dao.getlName();
+                        String planceAddress = dao.getlAddress();
+
+
+                        String strUri = "http://maps.google.com/maps?q=loc:" + leg_log + " (" + planceName + ")";
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(strUri));
+                        intent.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                        startActivity(intent);
+
+                    }
+                }
+            });
+
+            imgCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(i < TypePlanceListManager.getInstance().getCount()) {
+                        TypePlanceItemDao dao = (TypePlanceItemDao) listAdapter.getItem(i);
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse("tel:"+dao.getlTel()));
+                        startActivity(intent);
+                    }
+                }
+            });
         }
     };
 

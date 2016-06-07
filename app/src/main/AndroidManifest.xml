@@ -21,11 +21,13 @@
         </activity>
         <activity android:name=".activity.OnlineActivity" />
         <activity android:name=".activity.TypeActivity" />
+
         <meta-data
             android:name="com.devdrunk.chiangraicalling.configuration.GlideConfiguration"
             android:value="GlideModule" />
 
-        <activity android:name=".activity.TypePlanActivity"></activity>
+        <activity android:name=".activity.TypePlanActivity" />
+        <activity android:name=".activity.OfflineActivity"></activity>
     </application>
 
 </manifest>

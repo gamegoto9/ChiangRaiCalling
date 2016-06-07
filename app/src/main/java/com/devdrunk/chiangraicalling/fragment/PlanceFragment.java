@@ -89,8 +89,6 @@ public class PlanceFragment extends Fragment {
         progressBar = (ProgressBar) rootView.findViewById(R.id.progressbar);
 
 
-
-
         CallServer();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,7 +102,7 @@ public class PlanceFragment extends Fragment {
                 imgMap.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(position < PlanceListManager.getInstance().getCount()) {
+                        if (position < PlanceListManager.getInstance().getCount()) {
                             PlanceItemDao dao = (PlanceItemDao) listAdapter.getItem(position);
                             String leg_log = dao.getLocationCodeMap();
                             String planceName = dao.getLocationName();
@@ -131,16 +129,19 @@ public class PlanceFragment extends Fragment {
                 imgCall.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(position < PlanceListManager.getInstance().getCount()) {
+                        if (position < PlanceListManager.getInstance().getCount()) {
                             PlanceItemDao dao = (PlanceItemDao) listAdapter.getItem(position);
-                            Toast.makeText(getContext(),dao.getLocationTel(),Toast.LENGTH_SHORT).show();
+
+                            Intent intent = new Intent(Intent.ACTION_CALL);
+                            intent.setData(Uri.parse("tel:"+dao.getLocationTel()));
+                            startActivity(intent);
+
                         }
                     }
                 });
 
             }
         });
-
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -160,8 +161,6 @@ public class PlanceFragment extends Fragment {
         });
         //listAdapter = new PlanceListAdapter();
         //listView.setAdapter(listAdapter);
-
-
 
 
     }
@@ -195,7 +194,7 @@ public class PlanceFragment extends Fragment {
         listAdapter = savedInstanceState.getParcelable("listAdapter");
     }
 
-    public void CallServer(){
+    public void CallServer() {
         Call<PlanceItemCollectionDao> call = HttpManagerPlance.getInstance().getServicePlance().loadPlanceList();
 
         call.enqueue(new Callback<PlanceItemCollectionDao>() {
@@ -216,7 +215,7 @@ public class PlanceFragment extends Fragment {
                             dao.getData().get(0).getLocationId(),
                             Toast.LENGTH_LONG)
                             .show();
-                }else{
+                } else {
                     try {
                         Toast.makeText(Contextor.getInstance().getContext(),
                                 response.errorBody().string(),

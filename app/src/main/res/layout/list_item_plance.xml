@@ -20,7 +20,7 @@
 
             <com.inthecheesefactory.thecheeselibrary.widget.AdjustableImageView
                 android:id="@+id/imvProfile"
-                android:layout_width="76dp"
+                android:layout_width="70dp"
                 android:layout_height="match_parent"
 
 
