@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.widget.TextView;
 
 import com.devdrunk.chiangraicalling.R;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
@@ -14,6 +15,8 @@ import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
  * Created by nuuneoi on 11/16/2014.
  */
 public class OfflineTypeListItem extends BaseCustomViewGroup {
+
+    TextView txtId,txtName;
 
     public OfflineTypeListItem(Context context) {
         super(context);
@@ -49,6 +52,8 @@ public class OfflineTypeListItem extends BaseCustomViewGroup {
 
     private void initInstances() {
         // findViewById here
+        txtId = (TextView) findViewById(R.id.txtId);
+        txtName = (TextView) findViewById(R.id.txtName);
     }
 
     private void initWithAttrs(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -85,6 +90,13 @@ public class OfflineTypeListItem extends BaseCustomViewGroup {
 
         Bundle bundle = ss.getBundle();
         // Restore State from bundle here
+    }
+
+    public void setName(String text){
+        txtName.setText(text);
+    }
+    public void setId(String text){
+        txtId.setText(text);
     }
 
 }

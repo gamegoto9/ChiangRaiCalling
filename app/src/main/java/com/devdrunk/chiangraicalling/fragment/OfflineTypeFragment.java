@@ -1,5 +1,6 @@
 package com.devdrunk.chiangraicalling.fragment;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -12,10 +13,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.devdrunk.chiangraicalling.R;
+import com.devdrunk.chiangraicalling.adapter.TypeOfflineAdapter;
+import com.devdrunk.chiangraicalling.dao.TypeOfflineItemDao;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
 import java.util.ArrayList;
@@ -29,10 +33,24 @@ public class OfflineTypeFragment extends Fragment {
 
     ListView listView;
     SearchView searchView;
+    ProgressBar progressBar;
 
-    SQLiteDatabase mDb;
-    MyDbHelper mHelper;
-    Cursor mCursor;
+
+
+    // Out custom adapter
+    TypeOfflineAdapter adapter;
+
+    // contains our listview items
+    ArrayList<TypeOfflineItemDao> listItems;
+
+    // database
+    DatabaseHelper DatabaseHelper;
+
+    // list of todo titles
+    ArrayList<TypeOfflineItemDao> newData;
+
+    // contains the id of the item we are about to delete
+    public int deleteItem;
 
     public OfflineTypeFragment() {
         super();
@@ -73,31 +91,43 @@ public class OfflineTypeFragment extends Fragment {
 
         listView = (ListView) rootView.findViewById(R.id.listView);
         searchView = (SearchView) rootView.findViewById(R.id.searchData);
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progressbar);
+
+        DatabaseHelper = new DatabaseHelper(Contextor.getInstance().getContext());
+
+        // This returns a list of all our current available notes
+        listItems = DatabaseHelper.getAllNotes();
+
+        newData = new ArrayList<TypeOfflineItemDao>();
+
+        // Assigning the title to our global property so we can access it
+        // later after certain actions (deleting/adding)
 
 
-        mHelper = new MyDbHelper(Contextor.getInstance().getContext());
-        mDb = mHelper.getWritableDatabase();
-        mHelper.onUpgrade(mDb, 1, 1);
-
-        mCursor = mDb.rawQuery("SELECT " + MyDbHelper.COL_NAME + ", "
-                + MyDbHelper.COL_PIECE_PRICE + ", " + MyDbHelper.COL_CAKE_PRICE
-                + " FROM " + MyDbHelper.TABLE_NAME, null);
-
-        ArrayList<String> dirArray = new ArrayList<String>();
-
-        mCursor.moveToFirst();
-        while ( !mCursor.isAfterLast() ){
-            dirArray.add(mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_NAME)) + "\n"
-                    + "Piece : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_PIECE_PRICE)) + "\t\t"
-                    + "Cake : " + mCursor.getString(mCursor.getColumnIndex(MyDbHelper.COL_CAKE_PRICE)));
-            mCursor.moveToNext();
+        for (TypeOfflineItemDao note : listItems) {
+            newData.add(note);
         }
 
-        ArrayAdapter<String> adapterDir = new ArrayAdapter<String>(Contextor.getInstance().getContext()
-                ,R.layout.list_item_type, dirArray);
-        listView.setAdapter(adapterDir);
+        // We're initialising our custom adapter with all our data from the
+        // database
+
+        adapter = new TypeOfflineAdapter(Contextor.getInstance().getContext(), newData);
+
+        // Assigning the adapter to ListView
 
 
+
+        listView.setAdapter(adapter);
+        progressBar.setVisibility(View.GONE);
+
+        // Assigning an event to the listview
+        // This event will be used to delete records
+        //listView.setOnItemLongClickListener(myClickListener);
+
+
+        searchView.setOnQueryTextListener(SearchListener);
+
+        listView.setOnItemClickListener(listener);
 
     }
 
@@ -111,12 +141,6 @@ public class OfflineTypeFragment extends Fragment {
         super.onStop();
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        mHelper.close();
-        mDb.close();
-    }
     /*
      * Save Instance State Here
      */
@@ -124,6 +148,7 @@ public class OfflineTypeFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         // Save Instance State here
+        outState.putParcelable("listAdapter", adapter);
     }
 
     /*
@@ -132,6 +157,36 @@ public class OfflineTypeFragment extends Fragment {
     @SuppressWarnings("UnusedParameters")
     private void onRestoreInstanceState(Bundle savedInstanceState) {
         // Restore Instance State here
+        adapter = savedInstanceState.getParcelable("listAdapter");
     }
+
+    final SearchView.OnQueryTextListener SearchListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String s) {
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String s) {
+            String criteria = s.toString();
+            adapter.getFilter().filter(criteria);
+            return false;
+        }
+    };
+
+    final AdapterView.OnItemClickListener listener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+            TypeOfflineItemDao dao = (TypeOfflineItemDao) adapter.getItem(i);
+            Toast.makeText(Contextor.getInstance().getContext(),""+dao.gettId(),
+                    Toast.LENGTH_SHORT).show();
+
+            Contextor.getInstance().getContext().deleteDatabase("App");
+            Contextor.getInstance().getContext().deleteDatabase("App6");
+
+
+        }
+    };
 
 }
