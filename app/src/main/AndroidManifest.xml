@@ -27,7 +27,8 @@
             android:value="GlideModule" />
 
         <activity android:name=".activity.TypePlanActivity" />
-        <activity android:name=".activity.OfflineActivity"></activity>
+        <activity android:name=".activity.OfflineActivity" />
+        <activity android:name=".activity.PlanceOfflineActivity"></activity>
     </application>
 
 </manifest>

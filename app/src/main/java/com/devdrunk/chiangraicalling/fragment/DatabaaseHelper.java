@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.devdrunk.chiangraicalling.dao.PlanceOfflineItemDao;
 import com.devdrunk.chiangraicalling.dao.TypeOfflineItemDao;
 import com.devdrunk.chiangraicalling.view.OfflineTypeListItem;
 
@@ -494,6 +495,33 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 listItems.add(note);
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
+
+        return listItems;
+    }
+
+    public ArrayList<PlanceOfflineItemDao> getWhereId(String typeId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        ArrayList<PlanceOfflineItemDao> listItems = new ArrayList<PlanceOfflineItemDao>();
+
+        Cursor cursor = db.rawQuery("SELECT * from tb_plance WHERE typeId = " +
+                typeId + " ORDER BY tName ASC",
+                new String[] {});
+
+
+        if (cursor.moveToFirst()) {
+            do {
+                PlanceOfflineItemDao note = new PlanceOfflineItemDao();
+
+                note.lTel = cursor.getString(cursor.getColumnIndex("tTel"));
+
+                note.lName = cursor.getString(cursor.getColumnIndex("tName"));
+
+                listItems.add(note);
+            } while (cursor.moveToNext());
+        }
+
 
         cursor.close();
 

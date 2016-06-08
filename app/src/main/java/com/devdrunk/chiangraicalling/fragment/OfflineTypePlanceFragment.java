@@ -1,26 +1,24 @@
 package com.devdrunk.chiangraicalling.fragment;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.devdrunk.chiangraicalling.R;
-import com.devdrunk.chiangraicalling.activity.PlanceOfflineActivity;
+import com.devdrunk.chiangraicalling.adapter.PlanceOfflineAdapter;
 import com.devdrunk.chiangraicalling.adapter.TypeOfflineAdapter;
+import com.devdrunk.chiangraicalling.dao.PlanceOfflineItemDao;
 import com.devdrunk.chiangraicalling.dao.TypeOfflineItemDao;
 import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 
@@ -31,37 +29,38 @@ import java.util.ArrayList;
  * Created by nuuneoi on 11/16/2014.
  */
 @SuppressWarnings("unused")
-public class OfflineTypeFragment extends Fragment {
+public class OfflineTypePlanceFragment extends Fragment {
 
     ListView listView;
     SearchView searchView;
-
+    String typeId;
 
 
 
     // Out custom adapter
-    TypeOfflineAdapter adapter;
+    PlanceOfflineAdapter adapter;
 
     // contains our listview items
-    ArrayList<TypeOfflineItemDao> listItems;
+    ArrayList<PlanceOfflineItemDao> listItems;
 
     // database
     DatabaseHelper DatabaseHelper;
 
     // list of todo titles
-    ArrayList<TypeOfflineItemDao> newData;
+    ArrayList<PlanceOfflineItemDao> newData;
 
     // contains the id of the item we are about to delete
     public int deleteItem;
 
-    public OfflineTypeFragment() {
+    public OfflineTypePlanceFragment() {
         super();
     }
 
     @SuppressWarnings("unused")
-    public static OfflineTypeFragment newInstance() {
-        OfflineTypeFragment fragment = new OfflineTypeFragment();
+    public static OfflineTypePlanceFragment newInstance(String typeId) {
+        OfflineTypePlanceFragment fragment = new OfflineTypePlanceFragment();
         Bundle args = new Bundle();
+        args.putString("typeId",typeId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -78,7 +77,7 @@ public class OfflineTypeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_offline, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_plance_offline, container, false);
         initInstances(rootView, savedInstanceState);
         return rootView;
     }
@@ -98,22 +97,24 @@ public class OfflineTypeFragment extends Fragment {
         DatabaseHelper = new DatabaseHelper(Contextor.getInstance().getContext());
 
         // This returns a list of all our current available notes
-        listItems = DatabaseHelper.getAllNotes();
+        typeId = getArguments().getString("typeId");
 
-        newData = new ArrayList<TypeOfflineItemDao>();
+        listItems = DatabaseHelper.getWhereId(typeId);
+
+        newData = new ArrayList<PlanceOfflineItemDao>();
 
         // Assigning the title to our global property so we can access it
         // later after certain actions (deleting/adding)
 
 
-        for (TypeOfflineItemDao note : listItems) {
+        for (PlanceOfflineItemDao note : listItems) {
             newData.add(note);
         }
 
         // We're initialising our custom adapter with all our data from the
         // database
 
-        adapter = new TypeOfflineAdapter(Contextor.getInstance().getContext(), newData);
+        adapter = new PlanceOfflineAdapter(Contextor.getInstance().getContext(), newData);
 
         // Assigning the adapter to ListView
 
@@ -180,16 +181,21 @@ public class OfflineTypeFragment extends Fragment {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            TypeOfflineItemDao dao = (TypeOfflineItemDao) adapter.getItem(i);
+            final PlanceOfflineItemDao dao = (PlanceOfflineItemDao) adapter.getItem(i);
 
-            String typeId = String.valueOf(dao.gettId());
-            Intent intent = new Intent(Contextor.getInstance().getContext(),
-                    PlanceOfflineActivity.class);
-            intent.putExtra("typeId",typeId);
-            startActivity(intent);
+            ViewGroup vg = (ViewGroup) view;
+            ImageView imgCall = (ImageView) vg.findViewById(R.id.imvCall);
 
-            //Contextor.getInstance().getContext().deleteDatabase("App");
-            //Contextor.getInstance().getContext().deleteDatabase("App6");
+            imgCall.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                        Intent intent = new Intent(Intent.ACTION_CALL);
+                        intent.setData(Uri.parse("tel:"+dao.getlTel()));
+                        startActivity(intent);
+
+                }
+            });
 
 
         }
