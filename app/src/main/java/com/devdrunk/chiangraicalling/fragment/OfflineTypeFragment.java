@@ -186,6 +186,7 @@ public class OfflineTypeFragment extends Fragment {
             Intent intent = new Intent(Contextor.getInstance().getContext(),
                     PlanceOfflineActivity.class);
             intent.putExtra("typeId",typeId);
+            intent.putExtra("typeName",dao.gettName());
             startActivity(intent);
 
             //Contextor.getInstance().getContext().deleteDatabase("App");

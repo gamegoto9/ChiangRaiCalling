@@ -88,8 +88,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO "+ DATABASE_TABLE_NAME +" (" + COLID + ", " + COLTITLE+") " +
                 "VALUES (15, 'บูทแลกเปลี่ยนเงินต่างประเทศ');");
 
-        db.execSQL("INSERT INTO "+ DATABASE_TABLE_NAME +" (" + COLID + ", " + COLTITLE+") " +
-                "VALUES (16, 'ธนาคารไทยพาณิชย์');");
+
 
         createTbPlance(db);
 
@@ -438,11 +437,6 @@ class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO tb_plance (tName,tTel,typeId) " +
                 "VALUES ('ธนาคารกสิกรไทย สนามบินเชียงราย','0 5379 8266',15);");
 
-
-        db.execSQL("INSERT INTO tb_plance (tName,tTel,typeId) " +
-                "VALUES ('ธนาคารไทยพาณิชย์ - เมืองเชียงราย','0 5371 1579',16);");
-        db.execSQL("INSERT INTO tb_plance (tName,tTel,typeId) " +
-                "VALUES ('ธนาคารไทยพาณิชย์ - สามเหลี่ยมทองคำ','0 5378 4190',16);");
 
 
 

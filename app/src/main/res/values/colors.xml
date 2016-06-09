@@ -6,4 +6,7 @@
     <color name="indicator">#ecd95a</color>
     <color name="secondary">#f53a01</color>
 
+    <color name="tab_text">#000</color>
+    <color name="tab_text_act">#000</color>
+
 </resources>

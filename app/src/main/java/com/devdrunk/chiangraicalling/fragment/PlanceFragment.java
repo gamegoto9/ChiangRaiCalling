@@ -211,10 +211,13 @@ public class PlanceFragment extends Fragment {
                     listView.setAdapter(listAdapter);
                     //listAdapter.notifyDataSetChanged();
                     progressBar.setVisibility(View.GONE);
+                    /*
                     Toast.makeText(Contextor.getInstance().getContext(),
                             dao.getData().get(0).getLocationId(),
                             Toast.LENGTH_LONG)
                             .show();
+
+                            */
                 } else {
                     try {
                         Toast.makeText(Contextor.getInstance().getContext(),

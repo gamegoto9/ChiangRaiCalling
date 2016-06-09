@@ -13,7 +13,10 @@ import com.devdrunk.chiangraicalling.fragment.PlanceFragment;
  */
 public class ViewPagerAdaper extends FragmentStatePagerAdapter {
 
-    private String tabTitles[] = new String[] { "Tab1", "Tab2"};
+    private String tabTitles[] = new String[] { " อำเภอต่างๆ ", " สถานที่ต่างๆ "};
+
+
+
     private int[] imageResId = {
             R.drawable.ic_launcher,
             R.drawable.ic_launcher
@@ -26,7 +29,6 @@ public class ViewPagerAdaper extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-
         switch (position){
             case 0:
                 return AmpureFragment.newInstance();

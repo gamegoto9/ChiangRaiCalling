@@ -92,7 +92,7 @@ public class TypeFragment extends Fragment {
 
         locationId = dao.getProvinceId();
 
-        Toast.makeText(getContext(),locationId,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),locationId,Toast.LENGTH_SHORT).show();
 
         CallServer();
 
@@ -159,10 +159,12 @@ public class TypeFragment extends Fragment {
 
 
                         //listAdapter.notifyDataSetChanged();
+                        /*
                         Toast.makeText(Contextor.getInstance().getContext(),
                                 dao.getData().get(0).gettName(),
                                 Toast.LENGTH_LONG)
                                 .show();
+                                */
                     } else {
                         try {
                             Toast.makeText(Contextor.getInstance().getContext(),
@@ -212,7 +214,7 @@ public class TypeFragment extends Fragment {
                 TypeItemDao dao = (TypeItemDao) listAdapter.getItem(i);
                 FragmentListener listener = (FragmentListener) getActivity();
                 listener.onTypeItemClicked(dao,locationId);
-                Toast.makeText(getContext(),dao.gettId()+" : To : "+locationId,Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(),dao.gettId()+" : To : "+locationId,Toast.LENGTH_SHORT).show();
             }
 
         }

@@ -17,6 +17,7 @@
     <SearchView
         android:id="@+id/searchData"
         android:layout_width="match_parent"
+        android:background="#f7f5f5"
         android:layout_height="wrap_content"
         android:queryHint="ค้นหา"></SearchView>
 

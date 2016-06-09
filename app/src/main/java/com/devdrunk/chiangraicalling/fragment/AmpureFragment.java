@@ -205,10 +205,12 @@ public class AmpureFragment extends Fragment {
                     progressBar.setVisibility(View.GONE);
 
                     //listAdapter.notifyDataSetChanged();
+                    /*
                     Toast.makeText(Contextor.getInstance().getContext(),
                             dao.getData().get(0).getProvinceId(),
                             Toast.LENGTH_LONG)
                             .show();
+                            */
                 } else {
                     try {
                         Toast.makeText(Contextor.getInstance().getContext(),

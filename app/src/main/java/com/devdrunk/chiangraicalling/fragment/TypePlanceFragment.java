@@ -163,10 +163,12 @@ public class TypePlanceFragment extends Fragment {
 
 
                     //listAdapter.notifyDataSetChanged();
+                    /*
                     Toast.makeText(Contextor.getInstance().getContext(),
                             dao.getData().get(0).getlName(),
                             Toast.LENGTH_LONG)
                             .show();
+                            */
                 } else {
                     try {
                         Toast.makeText(Contextor.getInstance().getContext(),

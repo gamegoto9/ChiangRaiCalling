@@ -16,16 +16,18 @@ import com.devdrunk.chiangraicalling.fragment.TypeFragment;
 public class TypeActivity extends AppCompatActivity implements TypeFragment.FragmentListener{
 
     Toolbar toolbar;
-
+    AmpureItemDao dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type);
 
+        dao = getIntent().getParcelableExtra("dao");
+
         initInstances();
 
-        AmpureItemDao dao = getIntent().getParcelableExtra("dao");
+
 
 
         if (savedInstanceState == null) {
@@ -41,12 +43,12 @@ public class TypeActivity extends AppCompatActivity implements TypeFragment.Frag
     private void initInstances() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);         // set toolbar
         setSupportActionBar(toolbar);                           // set toolbar
-
+        String pTitle = dao.getProvinceName();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.logo_app);
         actionBar.setDisplayUseLogoEnabled(true);
        // actionBar.setDisplayShowHomeEnabled(true);
-
+        actionBar.setTitle(pTitle);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -54,11 +56,10 @@ public class TypeActivity extends AppCompatActivity implements TypeFragment.Frag
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       // if(item.getItemId() == ){
-       //     finish();
-       //     return true;
-       // }
-
+        if(item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 

@@ -1,5 +1,6 @@
 package com.devdrunk.chiangraicalling.fragment;
 
+import android.graphics.Path;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TableLayout;
 
 import com.devdrunk.chiangraicalling.R;
 import com.devdrunk.chiangraicalling.adapter.AmpureListAdapter;
@@ -56,6 +58,7 @@ public class OnlineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_online, container, false);
+
         initInstances(rootView, savedInstanceState);
 
 
@@ -73,19 +76,28 @@ public class OnlineFragment extends Fragment {
 
         tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
 
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
 
         ViewPagerAdaper viewPagerAdaper = new ViewPagerAdaper(getChildFragmentManager());
+
+
         viewPager.setAdapter(viewPagerAdaper);
 
         tabLayout.setupWithViewPager(viewPager);
+
+        /*
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
             tabLayout.getTabAt(i).setIcon(R.drawable.ic_launcher);
         }
+        */
 
 
 
 
     }
+
+
 
 
     @Override

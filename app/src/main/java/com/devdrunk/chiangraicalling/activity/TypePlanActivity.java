@@ -17,17 +17,16 @@ import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 public class TypePlanActivity extends AppCompatActivity {
 
     Toolbar toolbar;
+    TypeItemDao dao;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_type_plan);
 
-        initInstances();
-
-        TypeItemDao dao = getIntent().getParcelableExtra("dao");
+        dao = getIntent().getParcelableExtra("dao");
         String amphurId = getIntent().getStringExtra("amphurId");
 
-        //Toast.makeText(Contextor.getInstance().getContext(),"TTTTTTTTTTTTTT : "+amphurId,Toast.LENGTH_SHORT).show();
+        initInstances();
 
 
         if (savedInstanceState == null) {
@@ -45,7 +44,7 @@ public class TypePlanActivity extends AppCompatActivity {
         actionBar.setLogo(R.drawable.logo_app);
         actionBar.setDisplayUseLogoEnabled(true);
         // actionBar.setDisplayShowHomeEnabled(true);
-
+        actionBar.setTitle(dao.gettName());
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -53,11 +52,10 @@ public class TypePlanActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // if(item.getItemId() == ){
-        //     finish();
-        //     return true;
-        // }
-
+        if(item.getItemId() == android.R.id.home){
+            finish();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }
