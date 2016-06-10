@@ -5,10 +5,14 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.devdrunk.chiangraicalling.R;
+import com.inthecheesefactory.thecheeselibrary.manager.Contextor;
 import com.inthecheesefactory.thecheeselibrary.view.BaseCustomViewGroup;
 import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
 
@@ -17,7 +21,7 @@ import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
  */
 public class OfflinePlanceListItem extends BaseCustomViewGroup {
 
-    TextView tvName,tvTel;
+    TextView tvName,tvTel,tvAmphurName;
     ImageView imgProfile;
 
     public OfflinePlanceListItem(Context context) {
@@ -56,7 +60,12 @@ public class OfflinePlanceListItem extends BaseCustomViewGroup {
         // findViewById here
         tvName = (TextView) findViewById(R.id.tvName);
         tvTel = (TextView) findViewById(R.id.tvTel);
+        tvAmphurName = (TextView) findViewById(R.id.tvAmphurName);
         imgProfile = (ImageView) findViewById(R.id.imvProfile);
+
+        imgProfile.setVisibility(ImageView.GONE);
+
+        tvName.setPadding(10,0,0,0);
 
 
 
@@ -96,17 +105,28 @@ public class OfflinePlanceListItem extends BaseCustomViewGroup {
         super.onRestoreInstanceState(ss.getSuperState());
 
         Bundle bundle = ss.getBundle();
+
         // Restore State from bundle here
     }
 
     public void setNameText (String text){
         tvName.setText(text);
     }
+
     public void setTelText (String text){
         tvTel.setText(text);
     }
     public void setImgProfile (String text){
         //Todo set images
+    }
+    public void setTextAmpureName (String text,String typeId){
+        int id = Integer.parseInt(typeId);
+        if(id == 6) {
+            tvAmphurName.setText("อำเภอเมือง เชียงราย");
+            tvAmphurName.setVisibility(View.VISIBLE);
+        }
+        Log.e("== = = = = = ",""+id);
+
     }
 
 

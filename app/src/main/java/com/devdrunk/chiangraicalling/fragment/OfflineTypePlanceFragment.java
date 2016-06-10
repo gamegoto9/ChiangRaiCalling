@@ -99,6 +99,7 @@ public class OfflineTypePlanceFragment extends Fragment {
         // This returns a list of all our current available notes
         typeId = getArguments().getString("typeId");
 
+
         listItems = DatabaseHelper.getWhereId(typeId);
 
         newData = new ArrayList<PlanceOfflineItemDao>();
@@ -114,7 +115,7 @@ public class OfflineTypePlanceFragment extends Fragment {
         // We're initialising our custom adapter with all our data from the
         // database
 
-        adapter = new PlanceOfflineAdapter(Contextor.getInstance().getContext(), newData);
+        adapter = new PlanceOfflineAdapter(Contextor.getInstance().getContext(), newData,typeId);
 
         // Assigning the adapter to ListView
 

@@ -3,6 +3,7 @@ package com.devdrunk.chiangraicalling.adapter;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -27,13 +28,15 @@ public class PlanceOfflineAdapter extends BaseAdapter implements Filterable,Parc
     List<PlanceOfflineItemDao> searchData;
     List<PlanceOfflineItemDao> values;
     private int parcelData;
+    String typeId;
 
-    public PlanceOfflineAdapter(Context context, List<PlanceOfflineItemDao> values) {
+    public PlanceOfflineAdapter(Context context, List<PlanceOfflineItemDao> values,String typeId) {
         //super(context, R.layout.rowlayout, values);
 
         this.context = context;
         this.values = values;
         this.searchData = values;
+        this.typeId = typeId;
     }
 
     //Parcel เป็นการแปลง Object
@@ -85,6 +88,8 @@ public class PlanceOfflineAdapter extends BaseAdapter implements Filterable,Parc
         PlanceOfflineItemDao dao = (PlanceOfflineItemDao) getItem(i);
         item.setNameText(dao.getlName());
         item.setTelText(dao.getlTel());
+
+        item.setTextAmpureName(dao.getlName(),typeId);
 
         return item;
     }

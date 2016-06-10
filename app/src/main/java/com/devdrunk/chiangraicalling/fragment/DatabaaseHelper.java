@@ -43,7 +43,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
 
         db.execSQL("INSERT INTO "+ DATABASE_TABLE_NAME +" (" + COLID + ", " + COLTITLE+") " +
-                "VALUES (1, 'เบอร์โทรศัพท์ฉุกเฉินและข้อมูลการท่องเที่ยว');");
+                "VALUES (1, 'โทรศัพท์ฉุกเฉินและข้อมูลการท่องเที่ยว');");
 
         db.execSQL("INSERT INTO "+ DATABASE_TABLE_NAME +" (" + COLID + ", " + COLTITLE+") " +
                 "VALUES (2, 'ด่านตรวจคนเข้าเมือง');");
@@ -55,7 +55,7 @@ class DatabaseHelper extends SQLiteOpenHelper {
                 "VALUES (4, 'สถานีตำรวจ');");
 
         db.execSQL("INSERT INTO "+ DATABASE_TABLE_NAME +" (" + COLID + ", " + COLTITLE+") " +
-                "VALUES (5, 'รายชื่อโรงพยาบาล');");
+                "VALUES (5, 'โรงพยาบาล');");
 
         db.execSQL("INSERT INTO "+ DATABASE_TABLE_NAME +" (" + COLID + ", " + COLTITLE+") " +
                 "VALUES (6, 'คลีนิกทันตแพทย์');");
