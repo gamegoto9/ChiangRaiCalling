@@ -9,6 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.devdrunk.chiangraicalling.R;
 import com.devdrunk.chiangraicalling.activity.OfflineActivity;
@@ -21,8 +24,12 @@ import com.devdrunk.chiangraicalling.activity.OnlineActivity;
 @SuppressWarnings("unused")
 public class MainFragment extends Fragment {
 
-    Button btnOnline;
-    Button btnOffline;
+    ImageButton btnOnline;
+    ImageButton btnOffline;
+    ImageButton btnCredit;
+    ImageButton btnClose;
+    RelativeLayout parentCredit;
+    LinearLayout parentMenu;
 
     public MainFragment() {
         super();
@@ -60,8 +67,19 @@ public class MainFragment extends Fragment {
     @SuppressWarnings("UnusedParameters")
     private void initInstances(View rootView, Bundle savedInstanceState) {
         // Init 'View' instance(s) with rootView.findViewById here
-        btnOnline = (Button) rootView.findViewById(R.id.btnOnline);
-        btnOffline = (Button) rootView.findViewById(R.id.btnOffLine);
+        btnOnline = (ImageButton) rootView.findViewById(R.id.btnOnline);
+        btnOffline = (ImageButton) rootView.findViewById(R.id.btnOffLine);
+        btnCredit = (ImageButton) rootView.findViewById(R.id.btnCredit);
+        btnClose = (ImageButton) rootView.findViewById(R.id.btnClose);
+
+        parentCredit = (RelativeLayout) rootView.findViewById(R.id.parentCredit);
+        parentMenu = (LinearLayout) rootView.findViewById(R.id.parentMenu);
+
+
+        btnCredit.setOnClickListener(onclickcredit);
+
+
+        btnClose.setOnClickListener(onclickClose);
 
         btnOnline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,4 +135,19 @@ public class MainFragment extends Fragment {
         // Restore Instance State here
     }
 
+
+    final View.OnClickListener onclickcredit = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            parentCredit.setVisibility(View.VISIBLE);
+            parentMenu.setVisibility(View.GONE);
+        }
+    };
+    final View.OnClickListener onclickClose = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            parentCredit.setVisibility(View.GONE);
+            parentMenu.setVisibility(View.VISIBLE);
+        }
+    };
 }

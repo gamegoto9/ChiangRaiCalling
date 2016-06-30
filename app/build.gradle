@@ -8,8 +8,8 @@ android {
         applicationId "com.devdrunk.chiangraicalling"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 6
-        versionName "1.2bata"
+        versionCode 7
+        versionName "1.3bata"
     }
     buildTypes {
         release {

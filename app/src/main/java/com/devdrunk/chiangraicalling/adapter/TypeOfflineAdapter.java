@@ -84,6 +84,7 @@ public class TypeOfflineAdapter extends BaseAdapter implements Filterable,Parcel
         TypeOfflineItemDao dao = (TypeOfflineItemDao) getItem(i);
         item.setName(dao.gettName());
         item.setId(dao.gettId());
+        item.setImgProfile(dao.gettId());
 
         return item;
     }

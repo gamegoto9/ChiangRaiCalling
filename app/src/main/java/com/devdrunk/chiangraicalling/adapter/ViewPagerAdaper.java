@@ -13,7 +13,7 @@ import com.devdrunk.chiangraicalling.fragment.PlanceFragment;
  */
 public class ViewPagerAdaper extends FragmentStatePagerAdapter {
 
-    private String tabTitles[] = new String[] { " อำเภอต่างๆ ", " สถานที่ต่างๆ "};
+    private String tabTitles[] = new String[] { " อำเภอ ", " สถานที่ "};
 
 
 

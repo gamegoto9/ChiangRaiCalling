@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initInstances();
+        //initInstances();
 
         if(savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
+    /*
     private void initInstances() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);         // set toolbar
         setSupportActionBar(toolbar);                           // set toolbar
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
     }
+    */
 
 
 }

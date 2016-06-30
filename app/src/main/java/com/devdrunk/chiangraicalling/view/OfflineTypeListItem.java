@@ -5,6 +5,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.devdrunk.chiangraicalling.R;
@@ -17,6 +18,7 @@ import com.inthecheesefactory.thecheeselibrary.view.state.BundleSavedState;
 public class OfflineTypeListItem extends BaseCustomViewGroup {
 
     TextView txtId,txtName;
+    ImageView imgProfile;
 
     public OfflineTypeListItem(Context context) {
         super(context);
@@ -54,6 +56,7 @@ public class OfflineTypeListItem extends BaseCustomViewGroup {
         // findViewById here
         txtId = (TextView) findViewById(R.id.txtId);
         txtName = (TextView) findViewById(R.id.txtName);
+        imgProfile = (ImageView) findViewById(R.id.imvProfile);
     }
 
     private void initWithAttrs(AttributeSet attrs, int defStyleAttr, int defStyleRes) {
@@ -97,6 +100,55 @@ public class OfflineTypeListItem extends BaseCustomViewGroup {
     }
     public void setId(String text){
         txtId.setText(text);
+    }
+    public void setImgProfile(int id){
+        switch (id){
+            case 1 :
+                imgProfile.setImageResource(R.drawable.telfast);
+                break;
+            case 2 :
+                imgProfile.setImageResource(R.drawable.passport);
+                break;
+            case 3 :
+                imgProfile.setImageResource(R.drawable.travle);
+                break;
+            case 4 :
+                imgProfile.setImageResource(R.drawable.polic);
+                break;
+            case 5 :
+                imgProfile.setImageResource(R.drawable.hospital);
+                break;
+            case 6 :
+                imgProfile.setImageResource(R.drawable.clinic);
+                break;
+            case 7 :
+                imgProfile.setImageResource(R.drawable.box);
+                break;
+            case 8 :
+                imgProfile.setImageResource(R.drawable.bus);
+                break;
+            case 9 :
+                imgProfile.setImageResource(R.drawable.airport);
+                break;
+            case 10 :
+                imgProfile.setImageResource(R.drawable.bangkok_bank);
+                break;
+            case 11 :
+                imgProfile.setImageResource(R.drawable.kongsai_bank);
+                break;
+            case 12 :
+                imgProfile.setImageResource(R.drawable.thai_bank);
+                break;
+            case 13 :
+                imgProfile.setImageResource(R.drawable.kasikorn_bank);
+                break;
+            case 14 :
+                imgProfile.setImageResource(R.drawable.thaipanit_bank);
+                break;
+            default:
+                imgProfile.setImageResource(R.drawable.mony);
+                break;
+        }
     }
 
 }

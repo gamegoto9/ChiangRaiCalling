@@ -2,6 +2,7 @@ package com.devdrunk.chiangraicalling.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -118,6 +119,7 @@ public class OfflinePlanceListItem extends BaseCustomViewGroup {
     }
     public void setImgProfile (String text){
         //Todo set images
+        //imgProfile.setImageResource(R.drawable.logo_app);
     }
     public void setTextAmpureName (String text,String typeId){
         int id = Integer.parseInt(typeId);
